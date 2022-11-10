@@ -227,6 +227,12 @@ export interface SheetOption {
 	 * @default ''
 	 */
 	sheet?: string;
+	sheetViewXmlContents?: {
+		[index: number]: string | null
+	}
+	sheetFreezes?: {
+		[index: number]: [x: number, y: number] | null
+	}
 }
 
 /** Options for write and writeFile */

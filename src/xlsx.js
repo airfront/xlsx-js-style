@@ -14777,7 +14777,35 @@ function write_ws_xml_sheetviews(ws, opts, idx, wb) {
 	var sview = ({workbookViewId:"0"});
 	// $FlowIgnore
 	if((((wb||{}).Workbook||{}).Views||[])[0]) sview.rightToLeft = wb.Workbook.Views[0].RTL ? "1" : "0";
-	return writextag("sheetViews", writextag("sheetView", null, sview), {});
+	const colIndex2Name = function(index) {
+		const prefix = index >= 26
+			? colIndex2Name(Math.trunc(index / 26) - 1)
+			: ''
+		const mod = index % 26
+		return prefix + String.fromCharCode(mod + 0x41)
+	}
+	const expandSheetFreeze = def => {
+		if (!Array.isArray(def) || def.length != 2 || !def.every(e => typeof e === 'number'))
+			return null;
+		let [x, y] = def;
+		let cell = colIndex2Name(x) + (y + 1);
+		return writextag("pane", null, {
+			xSplit: x,
+			ySplit: y,
+			topLeftCell: cell,
+			activePane: "bottomRight",
+			state: "frozen"
+		}) + writextag("selection", null, { pane: "topRight" })
+		+ writextag("selection", null, { pane: "bottomLeft" })
+		+ writextag("selection", null, {
+			pane: "bottomRight",
+			activeCell: "A1",
+			sqref: "A1"
+		})
+	};
+	const innerXml = expandSheetFreeze((opts.sheetFreezes || {})[idx])
+		|| (opts.sheetViewXmlContents || {})[idx] || null;
+	return writextag("sheetViews", writextag("sheetView", innerXml, sview), {});
 }
 
 function write_ws_xml_cell(cell, ref, ws, opts) {

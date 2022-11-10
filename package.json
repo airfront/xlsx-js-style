@@ -1,9 +1,9 @@
 {
-	"name": "xlsx-js-style",
-	"version": "1.2.0",
+	"name": "@airfront/xlsx-js-style",
+	"version": "1.2.0-af.1",
 	"author": "gitbrent",
 	"description": "SheetJS Spreadsheet Community Edition plus Basic Cell Styles",
-	"homepage": "https://github.com/gitbrent/xlsx-js-style/",
+	"homepage": "https://github.com/airfront/xlsx-js-style/",
 	"keywords": [
 		"excel",
 		"xls",
@@ -37,6 +37,7 @@
 		"fs": false
 	},
 	"dependencies": {
+		"@airfront/xlsx-js-style": "file:airfront-xlsx-js-style-1.2.0-af.1.tgz",
 		"adler-32": "~1.2.0",
 		"cfb": "^1.1.4",
 		"codepage": "~1.14.0",
